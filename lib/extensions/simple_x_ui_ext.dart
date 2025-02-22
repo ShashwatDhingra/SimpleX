@@ -19,7 +19,17 @@ extension SimpleXToast on String {
     );
   }
 
-  void showToast() {
+  void showWhiteToast() {
+    Fluttertoast.showToast(
+      msg: this,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.white,
+      textColor: Colors.black,
+    );
+  }
+
+    void showBlackToast() {
     Fluttertoast.showToast(
       msg: this,
       toastLength: Toast.LENGTH_LONG,
