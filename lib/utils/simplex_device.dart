@@ -69,9 +69,8 @@ class SimpleXDevice {
         defaultTargetPlatform == TargetPlatform.iOS;
   }
 
-  static void vibrate(Duration duration) {
+  static void vibrate() {
     HapticFeedback.vibrate();
-    Future.delayed(duration, () => HapticFeedback.vibrate());
   }
 
   static Future<void> setPreferredOrientations(

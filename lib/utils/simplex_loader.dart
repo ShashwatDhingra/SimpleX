@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class SimpleXLoader {
   static final SimpleXLoader _instance = SimpleXLoader._internal();
@@ -7,17 +8,26 @@ class SimpleXLoader {
 
   SimpleXLoader._internal();
 
-  static final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _navigatorKey =
+      GlobalKey<NavigatorState>();
 
   static GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   static OverlayEntry? _overlayEntry;
 
-  static void showLoading() {
+  /// Determines the color based on system theme
+  static Color get _loaderColor {
+    return SchedulerBinding.instance.platformDispatcher.platformBrightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+  }
+
+  /// Show Loader
+  static void show() {
     if (_overlayEntry != null) return; // Prevent duplicate loaders
 
     _overlayEntry = OverlayEntry(
-      builder: (context) => const AbsorbPointer(
+      builder: (context) => AbsorbPointer(
         absorbing: true, // Prevent user interactions
         child: Stack(
           children: [
@@ -26,10 +36,11 @@ class SimpleXLoader {
               child: ModalBarrier(color: Colors.black, dismissible: false),
             ),
             Center(
-                // child: LottieBuilder.asset('assets/animations/loading1.json'),
-                child: CircularProgressIndicator(
-              strokeWidth: 1,
-            )),
+              child: CircularProgressIndicator(
+                strokeWidth: 1,
+                color: _loaderColor, // Dynamically change color
+              ),
+            ),
           ],
         ),
       ),
@@ -38,7 +49,8 @@ class SimpleXLoader {
     _navigatorKey.currentState?.overlay?.insert(_overlayEntry!);
   }
 
-  static void hideLoading() {
+  /// Hide Loader
+  static void hide() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }

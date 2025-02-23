@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:simple_x/simple_x.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +21,6 @@ class MyApp extends StatelessWidget {
                   .onPressed(() {
                 "onPressed Called".showWhiteToast();
               }).centered(),
-              
             ],
           )),
     );
